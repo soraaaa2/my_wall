@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Group names here">
+<meta name="author" content="Dheemant, Madhumitha, Sadiyah, Vidhi">
 
 <title>Group 1 — Clinic bodies – my_wall</title>
 <style>
@@ -180,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Group names here </p>
+             <p>Dheemant, Madhumitha, Sadiyah, Vidhi </p>
           </div>
   </div>
     
@@ -196,13 +196,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="spine" class="level1">
 <h1>Spine</h1>
 <blockquote class="blockquote">
-<p>Who is well in the clinic, who is labelled ill, and where does infant death still sit on the map?</p>
+<p>Who is well in the clinic, who is labelled ill, and where does infant death still sit on the map? Both panels together show who in the clinic is labelled ill: how heart disease splits across sex and chest-pain type, and whether high blood sugar and exercise-induced angina go together more than chance would predict.</p>
 </blockquote>
-<p>This sentence stays at the top. Every panel must attach to it. If a plot cannot be introduced in a clause that hangs off this line, it is off the wall.</p>
 </section>
 <section id="introduction-the-tables-we-own" class="level1">
 <h1>Introduction — the tables we own</h1>
-<p>This folder is ours for the ten days. Three tables, three shapes.</p>
 <ul>
 <li><strong>Panel A</strong> (<code>panel-A.csv</code>) — clinic measurements: age, blood pressure, cholesterol, maximum heart rate, plus sex and heart-disease label for grouping.</li>
 <li><strong>Panel B</strong> (<code>panel-B.csv</code>) — the <em>same people</em>, Quals only: chest pain, blood sugar flag, exercise angina, heart disease.</li>
@@ -210,6 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>A does not grow a mosaic. B does not grow a honest histogram of chest pain. C is a rate, not a headcount.</p>
 <p>We load from this folder:</p>
+<p>Found tables train the mark. A campus Free Hunch, if we collect one, is a <strong>made</strong> panel of the same pair type — new people, old grammar. It does not replace A, B, or C.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -224,7 +223,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Registered S3 method overwritten by 'mosaic':
   method                           from   
@@ -238,6 +238,10 @@ Attaching package: 'mosaic'
 The following object is masked from 'package:Matrix':
 
     mean
+
+The following object is masked from 'package:skimr':
+
+    n_missing
 
 The following objects are masked from 'package:dplyr':
 
@@ -260,347 +264,55 @@ The following objects are masked from 'package:base':
 
     max, mean, min, prod, range, sample, sum</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggformula)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'skimr'
+<pre><code>Loading required package: grid
+
+Attaching package: 'vcd'
 
 The following object is masked from 'package:mosaic':
 
-    n_missing</code></pre>
+    mplot</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/panel-A.csv"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    Age    Sex  BP Cholesterol MaximumHR HeartDisease
-1    63   Male 145         233       150           No
-2    67   Male 160         286       108          Yes
-3    67   Male 120         229       129          Yes
-4    37   Male 130         250       187           No
-5    41 Female 130         204       172           No
-6    56   Male 120         236       178           No
-7    62 Female 140         268       160          Yes
-8    57 Female 120         354       163           No
-9    63   Male 130         254       147          Yes
-10   53   Male 140         203       155          Yes
-11   57   Male 140         192       148           No
-12   56 Female 140         294       153           No
-13   56   Male 130         256       142          Yes
-14   44   Male 120         263       173           No
-15   52   Male 172         199       162           No
-16   57   Male 150         168       174           No
-17   48   Male 110         229       168          Yes
-18   54   Male 140         239       160           No
-19   48 Female 130         275       139           No
-20   49   Male 130         266       171           No
-21   64   Male 110         211       144           No
-22   58 Female 150         283       162           No
-23   58   Male 120         284       160          Yes
-24   58   Male 132         224       173          Yes
-25   60   Male 130         206       132          Yes
-26   50 Female 120         219       158           No
-27   58 Female 120         340       172           No
-28   66 Female 150         226       114           No
-29   43   Male 150         247       171           No
-30   40   Male 110         167       114          Yes
-31   69 Female 140         239       151           No
-32   60   Male 117         230       160          Yes
-33   64   Male 140         335       158          Yes
-34   59   Male 135         234       161           No
-35   44   Male 130         233       179           No
-36   42   Male 140         226       178           No
-37   43   Male 120         177       120          Yes
-38   57   Male 150         276       112          Yes
-39   55   Male 132         353       132          Yes
-40   61   Male 150         243       137           No
-41   65 Female 150         225       114          Yes
-42   40   Male 140         199       178           No
-43   71 Female 160         302       162           No
-44   59   Male 150         212       157           No
-45   61 Female 130         330       169          Yes
-46   58   Male 112         230       165          Yes
-47   51   Male 110         175       123           No
-48   50   Male 150         243       128          Yes
-49   65 Female 140         417       157           No
-50   53   Male 130         197       152           No
-51   41 Female 105         198       168           No
-52   65   Male 120         177       140           No
-53   44   Male 112         290       153          Yes
-54   44   Male 130         219       188           No
-55   60   Male 130         253       144          Yes
-56   54   Male 124         266       109          Yes
-57   50   Male 140         233       163          Yes
-58   41   Male 110         172       158          Yes
-59   54   Male 125         273       152           No
-60   51   Male 125         213       125           No
-61   51 Female 130         305       142          Yes
-62   46 Female 142         177       160           No
-63   58   Male 128         216       131          Yes
-64   54 Female 135         304       170           No
-65   54   Male 120         188       113          Yes
-66   60   Male 145         282       142          Yes
-67   60   Male 140         185       155          Yes
-68   54   Male 150         232       165           No
-69   59   Male 170         326       140          Yes
-70   46   Male 150         231       147          Yes
-71   65 Female 155         269       148           No
-72   67   Male 125         254       163          Yes
-73   62   Male 120         267        99          Yes
-74   65   Male 110         248       158          Yes
-75   44   Male 110         197       177          Yes
-76   65 Female 160         360       151           No
-77   60   Male 125         258       141          Yes
-78   51 Female 140         308       142           No
-79   48   Male 130         245       180           No
-80   58   Male 150         270       111          Yes
-81   45   Male 104         208       148           No
-82   53 Female 130         264       143           No
-83   39   Male 140         321       182           No
-84   68   Male 180         274       150          Yes
-85   52   Male 120         325       172           No
-86   44   Male 140         235       180           No
-87   47   Male 138         257       156           No
-88   53 Female 128         216       115           No
-89   53 Female 138         234       160           No
-90   51 Female 130         256       149           No
-91   66   Male 120         302       151           No
-92   62 Female 160         164       145          Yes
-93   62   Male 130         231       146           No
-94   44 Female 108         141       175           No
-95   63 Female 135         252       172           No
-96   52   Male 128         255       161          Yes
-97   59   Male 110         239       142          Yes
-98   60 Female 150         258       157          Yes
-99   52   Male 134         201       158           No
-100  48   Male 122         222       186           No
-101  45   Male 115         260       185           No
-102  34   Male 118         182       174           No
-103  57 Female 128         303       159           No
-104  71 Female 110         265       130           No
-105  49   Male 120         188       139          Yes
-106  54   Male 108         309       156           No
-107  59   Male 140         177       162          Yes
-108  57   Male 128         229       150          Yes
-109  61   Male 120         260       140          Yes
-110  39   Male 118         219       140          Yes
-111  61 Female 145         307       146          Yes
-112  56   Male 125         249       144          Yes
-113  52   Male 118         186       190           No
-114  43 Female 132         341       136          Yes
-115  62 Female 130         263        97          Yes
-116  41   Male 135         203       132           No
-117  58   Male 140         211       165           No
-118  35 Female 138         183       182           No
-119  63   Male 130         330       132          Yes
-120  65   Male 135         254       127          Yes
-121  48   Male 130         256       150          Yes
-122  63 Female 150         407       154          Yes
-123  51   Male 100         222       143           No
-124  55   Male 140         217       111          Yes
-125  65   Male 138         282       174          Yes
-126  45 Female 130         234       175           No
-127  56 Female 200         288       133          Yes
-128  54   Male 110         239       126          Yes
-129  44   Male 120         220       170           No
-130  62 Female 124         209       163           No
-131  54   Male 120         258       147           No
-132  51   Male  94         227       154           No
-133  29   Male 130         204       202           No
-134  51   Male 140         261       186           No
-135  43 Female 122         213       165           No
-136  55 Female 135         250       161           No
-137  70   Male 145         174       125          Yes
-138  62   Male 120         281       103          Yes
-139  35   Male 120         198       130          Yes
-140  51   Male 125         245       166           No
-141  59   Male 140         221       164           No
-142  59   Male 170         288       159          Yes
-143  52   Male 128         205       184           No
-144  64   Male 125         309       131          Yes
-145  58   Male 105         240       154           No
-146  47   Male 108         243       152          Yes
-147  57   Male 165         289       124          Yes
-148  41   Male 112         250       179           No
-149  45   Male 128         308       170           No
-150  60 Female 102         318       160           No
-151  52   Male 152         298       178           No
-152  42 Female 102         265       122           No
-153  67 Female 115         564       160           No
-154  55   Male 160         289       145          Yes
-155  64   Male 120         246        96          Yes
-156  70   Male 130         322       109          Yes
-157  51   Male 140         299       173          Yes
-158  58   Male 125         300       171          Yes
-159  60   Male 140         293       170          Yes
-160  68   Male 118         277       151           No
-161  46   Male 101         197       156           No
-162  77   Male 125         304       162          Yes
-163  54 Female 110         214       158           No
-164  58 Female 100         248       122           No
-165  48   Male 124         255       175           No
-166  57   Male 132         207       168           No
-167  52   Male 138         223       169           No
-168  54 Female 132         288       159           No
-169  35   Male 126         282       156          Yes
-170  45 Female 112         160       138           No
-171  70   Male 160         269       112          Yes
-172  53   Male 142         226       111           No
-173  59 Female 174         249       143          Yes
-174  62 Female 140         394       157           No
-175  64   Male 145         212       132          Yes
-176  57   Male 152         274        88          Yes
-177  52   Male 108         233       147           No
-178  56   Male 132         184       105          Yes
-179  43   Male 130         315       162           No
-180  53   Male 130         246       173           No
-181  48   Male 124         274       166          Yes
-182  56 Female 134         409       150          Yes
-183  42   Male 148         244       178           No
-184  59   Male 178         270       145           No
-185  60 Female 158         305       161          Yes
-186  63 Female 140         195       179           No
-187  42   Male 120         240       194           No
-188  66   Male 160         246       120          Yes
-189  54   Male 192         283       195          Yes
-190  69   Male 140         254       146          Yes
-191  50   Male 129         196       163           No
-192  51   Male 140         298       122          Yes
-193  43   Male 132         247       143          Yes
-194  62 Female 138         294       106          Yes
-195  68 Female 120         211       115           No
-196  67   Male 100         299       125          Yes
-197  69   Male 160         234       131           No
-198  45 Female 138         236       152           No
-199  50 Female 120         244       162           No
-200  59   Male 160         273       125          Yes
-201  50 Female 110         254       159           No
-202  64 Female 180         325       154           No
-203  57   Male 150         126       173           No
-204  64 Female 140         313       133           No
-205  43   Male 110         211       161           No
-206  45   Male 142         309       147          Yes
-207  58   Male 128         259       130          Yes
-208  50   Male 144         200       126          Yes
-209  55   Male 130         262       155           No
-210  62 Female 150         244       154          Yes
-211  37 Female 120         215       170           No
-212  38   Male 120         231       182          Yes
-213  41   Male 130         214       168           No
-214  66 Female 178         228       165          Yes
-215  52   Male 112         230       160          Yes
-216  56   Male 120         193       162           No
-217  46 Female 105         204       172           No
-218  46 Female 138         243       152           No
-219  64 Female 130         303       122           No
-220  59   Male 138         271       182           No
-221  41 Female 112         268       172           No
-222  54 Female 108         267       167           No
-223  39 Female  94         199       179           No
-224  53   Male 123         282        95          Yes
-225  63 Female 108         269       169          Yes
-226  34 Female 118         210       192           No
-227  47   Male 112         204       143           No
-228  67 Female 152         277       172           No
-229  54   Male 110         206       108          Yes
-230  66   Male 112         212       132          Yes
-231  52 Female 136         196       169           No
-232  55 Female 180         327       117          Yes
-233  49   Male 118         149       126          Yes
-234  74 Female 120         269       121           No
-235  54 Female 160         201       163           No
-236  54   Male 122         286       116          Yes
-237  56   Male 130         283       103          Yes
-238  46   Male 120         249       144          Yes
-239  49 Female 134         271       162           No
-240  42   Male 120         295       162           No
-241  41   Male 110         235       153           No
-242  41 Female 126         306       163           No
-243  49 Female 130         269       163           No
-244  61   Male 134         234       145          Yes
-245  60 Female 120         178        96           No
-246  67   Male 120         237        71          Yes
-247  58   Male 100         234       156          Yes
-248  47   Male 110         275       118          Yes
-249  52   Male 125         212       168          Yes
-250  62   Male 128         208       140           No
-251  57   Male 110         201       126           No
-252  58   Male 146         218       105          Yes
-253  64   Male 128         263       105           No
-254  51 Female 120         295       157           No
-255  43   Male 115         303       181           No
-256  42 Female 120         209       173           No
-257  67 Female 106         223       142           No
-258  76 Female 140         197       116           No
-259  70   Male 156         245       143           No
-260  57   Male 124         261       141          Yes
-261  44 Female 118         242       149           No
-262  58 Female 136         319       152          Yes
-263  60 Female 150         240       171           No
-264  44   Male 120         226       169           No
-265  61   Male 138         166       125          Yes
-266  42   Male 136         315       125          Yes
-267  52   Male 128         204       156          Yes
-268  59   Male 126         218       134          Yes
-269  40   Male 152         223       181          Yes
-270  42   Male 130         180       150           No
-271  61   Male 140         207       138          Yes
-272  66   Male 160         228       138           No
-273  46   Male 140         311       120          Yes
-274  71 Female 112         149       125           No
-275  59   Male 134         204       162          Yes
-276  64   Male 170         227       155           No
-277  66 Female 146         278       152           No
-278  39 Female 138         220       152           No
-279  57   Male 154         232       164          Yes
-280  58 Female 130         197       131           No
-281  57   Male 110         335       143          Yes
-282  47   Male 130         253       179           No
-283  55 Female 128         205       130          Yes
-284  35   Male 122         192       174           No
-285  61   Male 148         203       161          Yes
-286  58   Male 114         318       140          Yes
-287  58 Female 170         225       146          Yes
-288  58   Male 125         220       144           No
-289  56   Male 130         221       163           No
-290  56   Male 120         240       169           No
-291  67   Male 152         212       150          Yes
-292  55 Female 132         342       166           No
-293  44   Male 120         169       144          Yes
-294  63   Male 140         187       144          Yes
-295  63 Female 124         197       136          Yes
-296  41   Male 120         157       182           No
-297  59   Male 164         176        90          Yes
-298  57 Female 140         241       123          Yes
-299  45   Male 110         264       132          Yes
-300  68   Male 144         193       141          Yes
-301  57   Male 130         131       115          Yes
-302  57 Female 130         236       174          Yes
-303  38   Male 138         175       173           No</code></pre>
-</div>
-</div>
-<p>Found tables train the mark. A campus Free Hunch, if we collect one, is a <strong>made</strong> panel of the same pair type — new people, old grammar. It does not replace A, B, or C.</p>
 </section>
 <section id="panel-a-body-measure" class="level1">
 <h1>Panel A — body / measure</h1>
 <p><em>Age, BP, Cholesterol, MaximumHR are Quant. Sex and HeartDisease are Quals used to </em>split* the Quants.*</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span>  <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/panel-A.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 303 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Sex, HeartDisease
+dbl (4): Age, BP, Cholesterol, MaximumHR
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
 <section id="see-the-table" class="level3">
 <h3 class="anchored" data-anchor-id="see-the-table">1. See the table</h3>
 <p>What is a case? Which columns are Quant / Qual? What is missing?</p>
+<p>The Qualitative variable in this table entail - HeartDisease and Sex(These were character variables which were mutated to factor variables).</p>
+<p>the quantitative variables in this table are - Age, BP, Cholestrol, MaximumHR.</p>
+<p>A few piecies of data missing here are the fatality rate and the fact that casuality cannot be proved since this is not an RCT data set.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse() / inspect() / skim()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 303
 Columns: 6
-$ Age          &lt;int&gt; 63, 67, 67, 37, 41, 56, 62, 57, 63, 53, 57, 56, 56, 44, 5…
+$ Age          &lt;dbl&gt; 63, 67, 67, 37, 41, 56, 62, 57, 63, 53, 57, 56, 56, 44, 5…
 $ Sex          &lt;chr&gt; "Male", "Male", "Male", "Male", "Female", "Male", "Female…
-$ BP           &lt;int&gt; 145, 160, 120, 130, 130, 120, 140, 120, 130, 140, 140, 14…
-$ Cholesterol  &lt;int&gt; 233, 286, 229, 250, 204, 236, 268, 354, 254, 203, 192, 29…
-$ MaximumHR    &lt;int&gt; 150, 108, 129, 187, 172, 178, 160, 163, 147, 155, 148, 15…
+$ BP           &lt;dbl&gt; 145, 160, 120, 130, 130, 120, 140, 120, 130, 140, 140, 14…
+$ Cholesterol  &lt;dbl&gt; 233, 286, 229, 250, 204, 236, 268, 354, 254, 203, 192, 29…
+$ MaximumHR    &lt;dbl&gt; 150, 108, 129, 187, 172, 178, 160, 163, 147, 155, 148, 15…
 $ HeartDisease &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "Yes", "No", "Yes",…</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -778,100 +490,750 @@ $ HeartDisease &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "Yes", "No", "Y
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> <span class="fu">gf_density</span>(<span class="sc">~</span> body_mass, <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="sc">~</span> species)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_density()`).</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(Sex))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 303 × 6
+     Age Sex       BP Cholesterol MaximumHR HeartDisease
+   &lt;dbl&gt; &lt;fct&gt;  &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       
+ 1    63 Male     145         233       150 No          
+ 2    67 Male     160         286       108 Yes         
+ 3    67 Male     120         229       129 Yes         
+ 4    37 Male     130         250       187 No          
+ 5    41 Female   130         204       172 No          
+ 6    56 Male     120         236       178 No          
+ 7    62 Female   140         268       160 Yes         
+ 8    57 Female   120         354       163 No          
+ 9    63 Male     130         254       147 Yes         
+10    53 Male     140         203       155 Yes         
+# ℹ 293 more rows</code></pre>
 </div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">HeartDisease =</span> <span class="fu">as.factor</span>(HeartDisease))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 303 × 6
+     Age Sex       BP Cholesterol MaximumHR HeartDisease
+   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;       
+ 1    63 Male     145         233       150 No          
+ 2    67 Male     160         286       108 Yes         
+ 3    67 Male     120         229       129 Yes         
+ 4    37 Male     130         250       187 No          
+ 5    41 Female   130         204       172 No          
+ 6    56 Male     120         236       178 No          
+ 7    62 Female   140         268       160 Yes         
+ 8    57 Female   120         354       163 No          
+ 9    63 Male     130         254       147 Yes         
+10    53 Male     140         203       155 Yes         
+# ℹ 293 more rows</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">&lt;-</span> A <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(Sex), <span class="at">HeartDisease =</span> <span class="fu">as.factor</span>(HeartDisease))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 303
+Columns: 6
+$ Age          &lt;dbl&gt; 63, 67, 67, 37, 41, 56, 62, 57, 63, 53, 57, 56, 56, 44, 5…
+$ Sex          &lt;fct&gt; Male, Male, Male, Male, Female, Male, Female, Female, Mal…
+$ BP           &lt;dbl&gt; 145, 160, 120, 130, 130, 120, 140, 120, 130, 140, 140, 14…
+$ Cholesterol  &lt;dbl&gt; 233, 286, 229, 250, 204, 236, 268, 354, 254, 203, 192, 29…
+$ MaximumHR    &lt;dbl&gt; 150, 108, 129, 187, 172, 178, 160, 163, 147, 155, 148, 15…
+$ HeartDisease &lt;fct&gt; No, Yes, Yes, No, No, No, Yes, No, Yes, Yes, No, No, Yes,…</code></pre>
 </div>
 </div>
 </section>
 <section id="ask" class="level3">
 <h3 class="anchored" data-anchor-id="ask">2. Ask</h3>
 <p>One question <em>this</em> table can answer. One it cannot. Write both.</p>
+<p>Question can answer: 1.How does cholestrol affect different sex? 2.Based on sex and age how does the maximum Heartrate fluctuate? 3.How does the age distribution of people with and without heart disease differ in this dataset? 4.how does the number of men and women having BP vary over the years?</p>
+<p>Questions it cannot answer:</p>
+<p>1.For what % of the population is cholestrol the reason for heart disease? 2.Does sex itself influence a person’s maximum heart rate, or are the differences in maximum heart rate actually related to other factors such as age or health?</p>
 </section>
 <section id="choose-a-mark" class="level3">
 <h3 class="anchored" data-anchor-id="choose-a-mark">3. Choose a mark</h3>
-<p>Geom, map mark, or (later) test that matches the pair type. Name it before you code.</p>
+<p>Questions that can be answered:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">gf_boxplot</span>(<span class="sc">~</span> Cholesterol, <span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="sc">~</span> Sex)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart1-Question1A-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">gf_point</span>(MaximumHR<span class="sc">~</span>Age, <span class="at">color =</span> <span class="sc">~</span>Sex) <span class="sc">|&gt;</span>  <span class="fu">gf_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">|&gt;</span>  <span class="fu">gf_density_2d</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart2-Question2A-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">gf_boxplot</span>(Age <span class="sc">~</span> HeartDisease)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart3-Question3A-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">gf_line</span>(BP <span class="sc">~</span> Age,<span class="at">bins=</span> <span class="dv">100</span>, <span class="at">color =</span>  <span class="sc">~</span>Sex)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart4-Question4A-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Questions that cannot be answered:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">gf_point</span>(Cholesterol<span class="sc">~</span>Sex,<span class="at">color =</span> <span class="sc">~</span>HeartDisease)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart1-Question1AN-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(Sex, MaximumHR, <span class="at">fill =</span> Sex)) <span class="sc">+</span> <span class="fu">geom_violin</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.08</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart2-Question2AN-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Statistic Tests:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Sex) <span class="sc">|&gt;</span> <span class="fu">summarize</span>( <span class="at">mean_MaximumHR =</span> <span class="fu">mean</span>(MaximumHR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  Sex    mean_MaximumHR
+  &lt;fct&gt;           &lt;dbl&gt;
+1 Female           151.
+2 Male             149.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Sex) <span class="sc">|&gt;</span> <span class="fu">summarize</span>( <span class="at">mean_Cholesterol =</span> <span class="fu">mean</span>(Cholesterol, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  Sex    mean_Cholesterol
+  &lt;fct&gt;             &lt;dbl&gt;
+1 Female             262.
+2 Male               240.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Sex) <span class="sc">|&gt;</span> <span class="fu">summarize</span>( <span class="at">mean_BP =</span> <span class="fu">mean</span>(BP, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  Sex    mean_BP
+  &lt;fct&gt;    &lt;dbl&gt;
+1 Female    133.
+2 Male      131.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mosaic<span class="sc">::</span><span class="fu">t_test</span>(MaximumHR <span class="sc">~</span> Sex, <span class="at">data =</span> A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  MaximumHR by Sex
+t = 0.90442, df = 223.85, p-value = 0.3667
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -2.808276  7.572564
+sample estimates:
+mean in group Female   mean in group Male 
+            151.2268             148.8447 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mosaic<span class="sc">::</span><span class="fu">t_test</span>(Cholesterol <span class="sc">~</span> Sex, <span class="at">data =</span> A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Cholesterol by Sex
+t = 3.0643, df = 136.37, p-value = 0.002631
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+  7.855795 36.445477
+sample estimates:
+mean in group Female   mean in group Male 
+            261.7526             239.6019 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mosaic<span class="sc">::</span><span class="fu">t_test</span>(BP <span class="sc">~</span> Sex, <span class="at">data =</span> A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  BP by Sex
+t = 1.0622, df = 165.36, p-value = 0.2897
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -2.084686  6.939856
+sample estimates:
+mean in group Female   mean in group Male 
+            133.3402             130.9126 </code></pre>
+</div>
+</div>
 </section>
-<section id="predict" class="level3">
-<h3 class="anchored" data-anchor-id="predict">4. Predict</h3>
-<p>What do we think we will see? One sentence, before Run.</p>
-</section>
-<section id="make" class="level3">
-<h3 class="anchored" data-anchor-id="make">5. Make</h3>
-<p>Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># human chunk</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Prompt we actually used</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ai_draft</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ours</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="predict-what-do-we-think-we-will-see" class="level3">
+<h3 class="anchored" data-anchor-id="predict-what-do-we-think-we-will-see">4. Predict: What do we think we will see?</h3>
+<p>We predict that age, sex, blood pressure, and cholesterol will show noticeable differences in maximum heart rate and heart disease.</p>
 </section>
 <section id="say" class="level3">
-<h3 class="anchored" data-anchor-id="say">6. Say</h3>
-<p>Caption + one sentence we will stand behind. Title is a sentence, not a column name.</p>
+<h3 class="anchored" data-anchor-id="say">5. Say</h3>
+<p>Title: Age and sex show different patterns in heart health measures.</p>
+<p>Caption: The graphs show how age, sex, blood pressure, cholesterol, maximum heart rate, and heart disease are distributed and related across the sample.</p>
+<p>One sentence we will stand behind: The data shows differences between groups, but these patterns do not prove that one factor causes heart disease.</p>
 </section>
 <section id="limit" class="level3">
-<h3 class="anchored" data-anchor-id="limit">7. Limit</h3>
+<h3 class="anchored" data-anchor-id="limit">6. Limit</h3>
 <p>What this panel cannot do. Which kit table we refused to abuse.</p>
+<p>The data available to us in this panel cannot prove dependency in terms of causality between two or more variables.</p>
 </section>
 </section>
 <section id="panel-b-category-talk" class="level1">
 <h1>Panel B — category / talk</h1>
 <p><em>ChestPain, Sex, HeartDisease, ExerciseInducedAngina. Mosaic or stacked bar. No mean of ChestPain.</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/panel-B.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 303 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): Sex, ChestPain, ExerciseInducedAngina, HeartDisease
+lgl (1): BloodSugar
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
 <section id="see-the-table-1" class="level3">
 <h3 class="anchored" data-anchor-id="see-the-table-1">1. See the table</h3>
 <p>What is a case? Which columns are Quant / Qual? What is missing?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse() / inspect() / skim()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse() / inspect() / skim()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(B)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 303
+Columns: 5
+$ Sex                   &lt;chr&gt; "Male", "Male", "Male", "Male", "Female", "Male"…
+$ ChestPain             &lt;chr&gt; "Typical angina", "Asymptomatic", "Asymptomatic"…
+$ BloodSugar            &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ ExerciseInducedAngina &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "No", "Yes…
+$ HeartDisease          &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "Yes", "No…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(B)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">303</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">logical</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 12%">
+<col style="width: 17%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sex</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPain</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ExerciseInducedAngina</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HeartDisease</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: logical</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: left;">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">BloodSugar</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: left;">FAL: 258, TRU: 45</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> B <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(Sex))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> B <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character),as.factor))</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>B <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 303
+Columns: 5
+$ Sex                   &lt;fct&gt; Male, Male, Male, Male, Female, Male, Female, Fe…
+$ ChestPain             &lt;fct&gt; Typical angina, Asymptomatic, Asymptomatic, Non-…
+$ BloodSugar            &lt;lgl&gt; TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+$ ExerciseInducedAngina &lt;fct&gt; No, Yes, Yes, No, No, No, No, Yes, No, Yes, No, …
+$ HeartDisease          &lt;fct&gt; No, Yes, Yes, No, No, No, Yes, No, Yes, Yes, No,…</code></pre>
+</div>
+</div>
 </section>
 <section id="ask-1" class="level3">
 <h3 class="anchored" data-anchor-id="ask-1">2. Ask</h3>
 <p>One question <em>this</em> table can answer. One it cannot. Write both.</p>
+<p>Question can answer: 1. What part of the population posses both blood sugar and Heart Disease? 2. How does the proportion of people with heart disease differ across different chest pain types? 3. How does the distribution of exercise-induced angina differ between males and females?</p>
+<p>Questions it cannot answer: 1.How often does exercise-induced angina cause chest pain among man and women? 2.Why do certain chest pain types have higher rates of heart disease? 3.What factors are responsible for certain people having heart disease?</p>
 </section>
 <section id="choose-a-mark-1" class="level3">
 <h3 class="anchored" data-anchor-id="choose-a-mark-1">3. Choose a mark</h3>
-<p>Geom, map mark, or (later) test that matches the pair type. Name it before you code.</p>
+<p>Questions that can be answered:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>B <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> BloodSugar, <span class="at">fill =</span> HeartDisease)) <span class="sc">+</span><span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Blood Sugar"</span>, <span class="at">y =</span> <span class="st">"Number of People"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart1-Question1B-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>B <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ChestPain, <span class="at">fill =</span> HeartDisease)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Heart Disease Proportion Across Chest Pain Types"</span>,<span class="at">x =</span> <span class="st">"Chest Pain Type"</span>,<span class="at">y =</span> <span class="st">"Proportion"</span>,<span class="at">fill =</span> <span class="st">"Heart Disease"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart2-Question2B-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>B <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ExerciseInducedAngina, <span class="at">fill =</span> HeartDisease)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Sex) <span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Exercise-Induced Angina"</span>, <span class="at">y =</span> <span class="st">"Number of People"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart3-Question3B-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Questions that cannot be answered:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">structable</span>(ChestPain <span class="sc">~</span> ExerciseInducedAngina <span class="sc">+</span> Sex, <span class="at">data =</span> B) <span class="sc">|&gt;</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  vcd<span class="sc">::</span><span class="fu">mosaic</span>(<span class="at">labeling =</span> labeling_values, <span class="at">shade =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">"expected"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart1-Question1BN-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>B <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ChestPain, <span class="at">fill =</span> HeartDisease)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Chest Pain"</span>, <span class="at">y =</span> <span class="st">"Number of People"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart2-Question2BN-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">structable</span>(ExerciseInducedAngina <span class="sc">~</span> BloodSugar, <span class="at">data =</span> B) <span class="sc">|&gt;</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  vcd<span class="sc">::</span><span class="fu">mosaic</span>(<span class="at">shade =</span> <span class="cn">TRUE</span>, <span class="at">gp =</span> shading_Friendly)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/Chart3-Question3BN-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Statistic Test</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mosaic<span class="sc">::</span><span class="fu">xchisq.test</span>(BloodSugar <span class="sc">~</span> ExerciseInducedAngina, <span class="at">data =</span> B)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  x
+X-squared = 0.075367, df = 1, p-value = 0.7837
+
+   29       16   
+( 30.30) ( 14.70)
+[0.0210] [0.0432]
+&lt;-0.236&gt; &lt; 0.338&gt;
+   
+  175       83   
+(173.70) ( 84.30)
+[0.0037] [0.0075]
+&lt; 0.098&gt; &lt;-0.141&gt;
+   
+key:
+    observed
+    (expected)
+    [contribution to X-squared]
+    &lt;Pearson residual&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>mosaic<span class="sc">::</span><span class="fu">xchisq.test</span>(ChestPain <span class="sc">~</span> ExerciseInducedAngina, <span class="at">data =</span> B)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  x
+X-squared = 66.009, df = 3, p-value = 3.052e-14
+
+   64       80   
+(96.95)  (47.05) 
+[11.20]  [23.08] 
+&lt;-3.35&gt;  &lt; 4.80&gt; 
+   
+   46        4   
+(33.66)  (16.34) 
+[ 4.52]  [ 9.32] 
+&lt; 2.13&gt;  &lt;-3.05&gt; 
+   
+   75       11   
+(57.90)  (28.10) 
+[ 5.05]  [10.41] 
+&lt; 2.25&gt;  &lt;-3.23&gt; 
+   
+   19        4   
+(15.49)  ( 7.51) 
+[ 0.80]  [ 1.64] 
+&lt; 0.89&gt;  &lt;-1.28&gt; 
+   
+key:
+    observed
+    (expected)
+    [contribution to X-squared]
+    &lt;Pearson residual&gt;</code></pre>
+</div>
+</div>
+<p>Observation and conclusions drawn:</p>
+<p>Blood Sugar ~ Exercise Induced Angina- The above test proves that there is no significant correlation between the two variables. It states that the Blood Sugar and Exercise Induced Angina are independent of each other. Further since the p value exceeds 0.5 it fails to prove the fact that nothing is happening.</p>
+<p>Chest Pain ~ Exercise Induced Angina- The above test proves that there is strong association between the two variables. Chest Pain and Exercise Induced Angina are Highly dependent on each other. The low p value proves the hypothesis that nothing is happening.</p>
 </section>
-<section id="predict-1" class="level3">
-<h3 class="anchored" data-anchor-id="predict-1">4. Predict</h3>
-<p>What do we think we will see? One sentence, before Run.</p>
-</section>
-<section id="make-1" class="level3">
-<h3 class="anchored" data-anchor-id="make-1">5. Make</h3>
-<p>Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># human chunk</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Prompt we actually used</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ai_draft</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ours</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="predictwhat-do-we-think-we-will-see-one-sentence." class="level3">
+<h3 class="anchored" data-anchor-id="predictwhat-do-we-think-we-will-see-one-sentence.">4. Predict:What do we think we will see? One sentence.</h3>
+<p>We predict that heart disease will be more common among people with certain chest pain types, exercise-induced angina, and high blood sugar.</p>
 </section>
 <section id="say-1" class="level3">
-<h3 class="anchored" data-anchor-id="say-1">6. Say</h3>
-<p>Caption + one sentence we will stand behind. Title is a sentence, not a column name.</p>
+<h3 class="anchored" data-anchor-id="say-1">5. Say</h3>
+<p>Title: Heart disease shows different patterns across several health-related factors.</p>
+<p>Caption: The graphs compare heart disease with chest pain, blood sugar, exercise-induced angina, and sex to identify patterns within the sample.</p>
+<p>One sentence we will stand behind: The data shows associations between heart disease and these factors, but it cannot tell us what causes heart disease.</p>
 </section>
 <section id="limit-1" class="level3">
-<h3 class="anchored" data-anchor-id="limit-1">7. Limit</h3>
-<p>What this panel cannot do. Which kit table we refused to abuse.</p>
+<h3 class="anchored" data-anchor-id="limit-1">6. Limit</h3>
+<p>What this panel cannot do: This panel can show associations between the variables, but it cannot explain why these patterns occur or prove that one factor causes heart disease.</p>
+<p>Which kit table we refused to abuse: The contingency table.</p>
 </section>
 </section>
 <section id="panel-c-place" class="level1">
 <h1>Panel C — place</h1>
 <p><em>Join <code>country</code> to <code>rnaturalearth</code> / <code>tmap::World</code>. Fill is infant mortality (a rate).</em></p>
 <p>Geometry is not in the CSV. Join in R, then use the same seven headings.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(sf)</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(rnaturalearth)</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># world &lt;- ne_countries(scale = "medium", returnclass = "sf")</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # join on country name; list the unmatched labels</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(sf)</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(rnaturalearth)</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co"># world &lt;- ne_countries(scale = "medium", returnclass = "sf")</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # join on country name; list the unmatched labels</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="see-the-table-2" class="level3">
 <h3 class="anchored" data-anchor-id="see-the-table-2">1. See the table</h3>
 <p>What is a case? Which columns are Quant / Qual? What is missing?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse() / inspect() / skim()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse() / inspect() / skim()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>myPanelCData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/panel-C.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 222 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): country
+dbl (1): inf_mort_rate
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(myPanelCData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 222
+Columns: 2
+$ country       &lt;chr&gt; "Afghanistan", "Niger", "Mali", "Somalia", "Central Afri…
+$ inf_mort_rate &lt;dbl&gt; 121.63, 109.98, 109.08, 103.72, 97.17, 94.40, 93.61, 83.…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>myPanelCData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/panel-C.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 222 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): country
+dbl (1): inf_mort_rate
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(myPanelCData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">myPanelCData</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">222</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">country</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">222</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 12%">
+<col style="width: 17%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">inf_mort_rate</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">26.7</td>
+<td style="text-align: right;">25.93</td>
+<td style="text-align: right;">1.8</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">15.61</td>
+<td style="text-align: right;">42.14</td>
+<td style="text-align: right;">121.63</td>
+<td style="text-align: left;">▇▂▂▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>myPanelCData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/panel-C.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 222 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): country
+dbl (1): inf_mort_rate
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(myPanelCData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+categorical variables:  
+     name     class levels   n missing
+1 country character    222 222       0
+                                   distribution
+1 Afghanistan (0.5%), Albania (0.5%) ...       
+
+quantitative variables:  
+           name   class min    Q1 median    Q3    max     mean       sd   n
+1 inf_mort_rate numeric 1.8 6.505 15.615 42.14 121.63 26.70189 25.93386 222
+  missing
+1       0</code></pre>
+</div>
+</div>
 </section>
 <section id="ask-2" class="level3">
 <h3 class="anchored" data-anchor-id="ask-2">2. Ask</h3>
@@ -881,18 +1243,18 @@ $ HeartDisease &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "Yes", "No", "Y
 <h3 class="anchored" data-anchor-id="choose-a-mark-2">3. Choose a mark</h3>
 <p>Geom, map mark, or (later) test that matches the pair type. Name it before you code.</p>
 </section>
-<section id="predict-2" class="level3">
-<h3 class="anchored" data-anchor-id="predict-2">4. Predict</h3>
+<section id="predict" class="level3">
+<h3 class="anchored" data-anchor-id="predict">4. Predict</h3>
 <p>What do we think we will see? One sentence, before Run.</p>
 </section>
-<section id="make-2" class="level3">
-<h3 class="anchored" data-anchor-id="make-2">5. Make</h3>
+<section id="make" class="level3">
+<h3 class="anchored" data-anchor-id="make">5. Make</h3>
 <p>Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># human chunk</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Prompt we actually used</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ai_draft</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ours</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># human chunk</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Prompt we actually used</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ai_draft</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ours</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="say-2" class="level3">
 <h3 class="anchored" data-anchor-id="say-2">6. Say</h3>
@@ -913,7 +1275,7 @@ $ HeartDisease &lt;chr&gt; "No", "Yes", "Yes", "No", "No", "No", "Yes", "No", "Y
 <li>Limits: sample, missingness, the test we did not run</li>
 <li>Gift for the steal-this strip (palette, annotation, join trick)</li>
 </ul>
-<p><code>r # sessionInfo()</code>a</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sessionInfo()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
