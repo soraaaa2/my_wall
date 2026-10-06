@@ -1,7 +1,7 @@
 ---
 title: "Group 1 — Clinic bodies"
 subtitle: "Studio wall"
-author: "Group names here"
+author: "Dheemant, Madhumitha, Sadiyah, Vidhi"
 format:
   html:
     toc: true
@@ -11,12 +11,9 @@ format:
 # Spine
 
 > Who is well in the clinic, who is labelled ill, and where does infant death still sit on the map?
-
-This sentence stays at the top. Every panel must attach to it. If a plot cannot be introduced in a clause that hangs off this line, it is off the wall.
+Both panels together show who in the clinic is labelled ill: how heart disease splits across sex and chest-pain type, and whether high blood sugar and exercise-induced angina go together more than chance would predict.
 
 # Introduction — the tables we own
-
-This folder is ours for the ten days. Three tables, three shapes.
 
 - **Panel A** (`panel-A.csv`) — clinic measurements: age, blood pressure, cholesterol, maximum heart rate, plus sex and heart-disease label for grouping.
 - **Panel B** (`panel-B.csv`) — the *same people*, Quals only: chest pain, blood sugar flag, exercise angina, heart disease.
@@ -26,103 +23,148 @@ A does not grow a mosaic. B does not grow a honest histogram of chest pain. C is
 
 We load from this folder:
 
-```{r}
-library(tidyverse)
-library(mosaic)
-library(skimr)
-```
-
-```{r}
-A <- read.csv("data/panel-A.csv")
-A
-```
-
-
 Found tables train the mark. A campus Free Hunch, if we collect one, is a **made** panel of the same pair type — new people, old grammar. It does not replace A, B, or C.
+
+```{r}
+#| label: Set up chunk
+library(tidyverse)
+library(skimr)
+library(mosaic)
+library(ggformula)
+library(vcd)
+```
 
 # Panel A — body / measure
 
 *Age, BP, Cholesterol, MaximumHR are Quant. Sex and HeartDisease are Quals used to *split* the Quants.*
 
+```{r}
+#| label: My Panel A data
+A <-  read_csv(file = "data/panel-A.csv")
+```
 
 ### 1. See the table
 
 What is a case? Which columns are Quant / Qual? What is missing?
 
+The Qualitative variable in this table entail - HeartDisease and Sex(These were character variables which were mutated to factor variables).
+
+the quantitative variables in this table are - Age, BP, Cholestrol, MaximumHR.
+
+A few piecies of data missing here are the fatality rate and the fact that casuality cannot be proved since this is not an RCT data set.
+
+```r
+# glimpse() / inspect() / skim()
+```
+
 ```{r}
+#| label: Table for Panel A
 glimpse(A)
 skim(A)
 ```
 
-
 ```{r}
-penguins |> gf_density(~ body_mass, bins = 50, fill = ~ species)
+#| label: change to factor(Panel A)
+A |> mutate(Sex = as.factor(Sex))
+A |> mutate(HeartDisease = as.factor(HeartDisease))
+A<- A |> dplyr::mutate(Sex = as.factor(Sex), HeartDisease = as.factor(HeartDisease))
+glimpse(A)
 ```
 
-
 ### 2. Ask
-Questions we can answer:
 
-1.How does cholesterol affect different sexes?
-2.Based on sex and age how does the maximum Heart Rate fluctuate?
-3.How does the age distribution of people with and without heart disease differ in this data set?
-4.How does the number of men and women having BP vary over the years?
+One question *this* table can answer. One it cannot. Write both.
 
-Questions we cannot answer:
-1.What percent of the population is cholesterol the reason for heart disease?
-2.Does sex itself influence a person's maximum heart rate?, or Are the differences in maximum heart rate actually related to other factors such as age or health?
+Question can answer:
+1.How does cholestrol affect different sex?
+2.Based on sex and age how does the maximum Heartrate fluctuate?
+3.How does the age distribution of people with and without heart disease differ in this dataset?
+4.how does the number of men and women having BP vary over the years?
 
+Questions it cannot answer:
+
+1.For what % of the population is cholestrol the reason for heart disease?
+2.Does sex itself influence a person's maximum heart rate, or are the differences in maximum heart rate actually related to other factors such as age or health?
 
 ### 3. Choose a mark
 
-Graphs of Question that can be answered:
+Questions that can be answered:
+
 ```{r}
+#| label: Chart1-Question1A
 A |> gf_boxplot(~ Cholesterol, bins = 50, fill = ~ Sex)
 ```
 
 ```{r}
-A |> gf_point(MaximumHR~Age, color = ~Sex) 
-
+#| label: Chart2-Question2A
+A |> gf_point(MaximumHR~Age, color = ~Sex) |>  gf_smooth(method = "lm") |>  gf_density_2d()
 ```
 
 ```{r}
+#| label: Chart3-Question3A
 A |> gf_boxplot(Age ~ HeartDisease)
 ```
 
 ```{r}
-A |> gf_density_2d(BP~ Age,bins= 100, color =  ~Sex)
+#| label: Chart4-Question4A
+A |> gf_line(BP ~ Age,bins= 100, color =  ~Sex)
 ```
 
-
-### 4. Predict
-
-What do we think we will see? One sentence, before Run.
-
-### 5. Make
-
-Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.
-
-```r
-# human chunk
-
-# ## Prompt we actually used
-# ai_draft
-# ours
+Questions that cannot be answered:
+```{r}
+#| label: Chart1-Question1AN
+A |> gf_point(Cholesterol~Sex,color = ~HeartDisease)
 ```
 
-### 6. Say
+```{r}
+#| label: Chart2-Question2AN
+A |> ggplot(aes(Sex, MaximumHR, fill = Sex)) + geom_violin(alpha = 0.6) + geom_jitter(width = 0.08, alpha = 0.3, size = 1) + theme_minimal()
+```
 
-Caption + one sentence we will stand behind. Title is a sentence, not a column name.
+Statistic Tests:
 
-### 7. Limit
+```{r}
+#| label: StatisticTest1-Summarize
+A |> group_by(Sex) |> summarize( mean_MaximumHR = mean(MaximumHR, na.rm = TRUE))
+A |> group_by(Sex) |> summarize( mean_Cholesterol = mean(Cholesterol, na.rm = TRUE))
+A |> group_by(Sex) |> summarize( mean_BP = mean(BP, na.rm = TRUE))
+```
 
+```{r}
+#| label: StatisticTest2-T-Test
+mosaic::t_test(MaximumHR ~ Sex, data = A)
+mosaic::t_test(Cholesterol ~ Sex, data = A)
+mosaic::t_test(BP ~ Sex, data = A)
+```
+
+### 4. Predict: What do we think we will see?
+
+We predict that age, sex, blood pressure, and cholesterol will show noticeable differences in maximum heart rate and heart disease.
+
+### 5. Say
+
+Title:
+Age and sex show different patterns in heart health measures.
+
+Caption:
+The graphs show how age, sex, blood pressure, cholesterol, maximum heart rate, and heart disease are distributed and related across the sample.
+
+One sentence we will stand behind:
+The data shows differences between groups, but these patterns do not prove that one factor causes heart disease.
+
+### 6. Limit
 What this panel cannot do. Which kit table we refused to abuse.
 
+The data available to us in this panel cannot prove dependency in terms of causality between two or more variables.
 
 # Panel B — category / talk
 
 *ChestPain, Sex, HeartDisease, ExerciseInducedAngina. Mosaic or stacked bar. No mean of ChestPain.*
 
+```{r}
+#| label: My Panel B data
+B <- read_csv(file = "data/panel-B.csv")
+```
 
 ### 1. See the table
 
@@ -132,37 +174,117 @@ What is a case? Which columns are Quant / Qual? What is missing?
 # glimpse() / inspect() / skim()
 ```
 
+```{r}
+#| label: Table For Panel B
+glimpse(B)
+skim(B)
+```
+
+```{r}
+#| label: Change to factor(Panel B)
+B <- B |> mutate(Sex = as.factor(Sex))
+B <- B |> mutate(across(where(is.character),as.factor))
+B |> glimpse()
+```
+
 ### 2. Ask
 
 One question *this* table can answer. One it cannot. Write both.
 
+Question can answer:
+1. What part of the population posses both blood sugar and Heart Disease?
+2. How does the proportion of people with heart disease differ across different chest pain types?
+3. How does the distribution of exercise-induced angina differ between males and females?
+
+Questions it cannot answer:
+1.How often does exercise-induced angina cause chest pain among man and women?
+2.Why do certain chest pain types have higher rates of heart disease?
+3.What factors are responsible for certain people having heart disease?
+
 ### 3. Choose a mark
 
-Geom, map mark, or (later) test that matches the pair type. Name it before you code.
-
-### 4. Predict
-
-What do we think we will see? One sentence, before Run.
-
-### 5. Make
-
-Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.
-
-```r
-# human chunk
-
-# ## Prompt we actually used
-# ai_draft
-# ours
+Questions that can be answered:
+```{r}
+#| label: Chart1-Question1B
+B |> ggplot(aes(x = BloodSugar, fill = HeartDisease)) +geom_bar() +
+  labs(x = "Blood Sugar", y = "Number of People")
 ```
 
-### 6. Say
+```{r}
+#| label: Chart2-Question2B
+B |> ggplot(aes(x = ChestPain, fill = HeartDisease)) + geom_bar(position = "fill") +labs(title = "Heart Disease Proportion Across Chest Pain Types",x = "Chest Pain Type",y = "Proportion",fill = "Heart Disease") + theme_classic()
+```
 
-Caption + one sentence we will stand behind. Title is a sentence, not a column name.
+```{r}
+#| label: Chart3-Question3B
+B |> 
+  ggplot(aes(x = ExerciseInducedAngina, fill = HeartDisease)) + geom_bar(position = "dodge") +facet_wrap(~Sex) +
+  labs(x = "Exercise-Induced Angina", y = "Number of People")
+```
 
-### 7. Limit
+Questions that cannot be answered:
 
-What this panel cannot do. Which kit table we refused to abuse.
+```{r}
+#| label: Chart1-Question1BN
+vcd::structable(ChestPain ~ ExerciseInducedAngina + Sex, data = B) |> 
+  vcd::mosaic(labeling = labeling_values, shade = TRUE, type = "expected")
+```
+
+```{r}
+#| label: Chart2-Question2BN
+B |> 
+  ggplot(aes(x = ChestPain, fill = HeartDisease)) + geom_bar() + coord_flip() +
+  labs(x = "Chest Pain", y = "Number of People")
+```
+
+
+```{r}
+#| label: Chart3-Question3BN
+vcd::structable(ExerciseInducedAngina ~ BloodSugar, data = B) |> 
+  vcd::mosaic(shade = TRUE, gp = shading_Friendly)
+```
+
+Statistic Test
+
+```{r}
+#| label: Chi-square_test
+mosaic::xchisq.test(BloodSugar ~ ExerciseInducedAngina, data = B)
+mosaic::xchisq.test(ChestPain ~ ExerciseInducedAngina, data = B)
+```
+
+Observation and conclusions drawn:
+
+Blood Sugar ~ Exercise Induced Angina-
+The above test proves that there is no significant correlation between the two variables. It states that the Blood Sugar and Exercise Induced Angina are independent of each other.
+Further since the p value exceeds 0.5 it fails to prove the fact that nothing is happening.
+
+Chest Pain ~ Exercise Induced Angina-
+The above test proves that there is strong association between the two variables. Chest Pain and Exercise Induced Angina are Highly dependent on each other.
+The low p value proves the hypothesis that nothing is happening.
+
+
+### 4. Predict:What do we think we will see? One sentence.
+
+We predict that heart disease will be more common among people with certain chest pain types, exercise-induced angina, and high blood sugar.
+
+### 5. Say
+
+Title:
+Heart disease shows different patterns across several health-related factors.
+
+Caption:
+The graphs compare heart disease with chest pain, blood sugar, exercise-induced angina, and sex to identify patterns within the sample.
+
+One sentence we will stand behind:
+The data shows associations between heart disease and these factors, but it cannot tell us what causes heart disease.
+
+### 6. Limit
+
+What this panel cannot do:
+This panel can show associations between the variables, but it cannot explain why these patterns occur or prove that one factor causes heart disease.
+
+Which kit table we refused to abuse:
+The contingency table.
 
 
 # Panel C — place
@@ -185,6 +307,24 @@ What is a case? Which columns are Quant / Qual? What is missing?
 
 ```r
 # glimpse() / inspect() / skim()
+```
+```{r}
+myPanelCData <- read_csv(file = "data/panel-C.csv")
+glimpse(myPanelCData)
+```
+
+```{r}
+
+myPanelCData <- read_csv(file = "data/panel-C.csv")
+skim(myPanelCData)
+
+```
+
+```{r}
+
+myPanelCData <- read_csv(file = "data/panel-C.csv")
+
+inspect(myPanelCData)
 ```
 
 ### 2. Ask
@@ -232,4 +372,4 @@ What the spine looks like after three panels.
 
 ```r
 # sessionInfo()
-```a
+```
