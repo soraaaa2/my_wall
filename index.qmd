@@ -419,7 +419,7 @@ C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~lifeExp) |> gf
 Question 2: Cannot be answered
 What percentage of women help a country build their per capita?
 ```{r}
-#| label: chart1_question(na)
+#| label: chart2_question(na)
 C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~pop) |> gf_refine(ggplot2::scale_color_gradient(low = "yellow", high = "green")) |> gf_refine(ggplot2::scale_fill_gradient(low = "#C8BFE7", high = "#A349A4"))
 
 ```
