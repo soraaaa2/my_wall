@@ -25,13 +25,17 @@ We load from this folder:
 
 Found tables train the mark. A campus Free Hunch, if we collect one, is a **made** panel of the same pair type — new people, old grammar. It does not replace A, B, or C.
 
+{{< include _setup.qmd >}}
+
 ```{r}
-#| label: Set up chunk
+#| label: setup
 library(tidyverse)
 library(skimr)
 library(mosaic)
 library(ggformula)
 library(vcd)
+library(sf)
+library(rnaturalearth)
 ```
 
 # Panel A — body / measure
@@ -92,12 +96,12 @@ Questions that can be answered:
 
 ```{r}
 #| label: Chart1-Question1A
-A |> gf_boxplot(~ Cholesterol, bins = 50, fill = ~ Sex)
+A |> gf_boxplot(~ Cholesterol, bins = 50, fill = ~ Sex, title = "Chart 1", subtitle = "Cholesterol X Sex", caption = "Here we compare the difference in Cholesterol levels between different sexes")
 ```
 
 ```{r}
 #| label: Chart2-Question2A
-A |> gf_point(MaximumHR~Age, color = ~Sex) |>  gf_smooth(method = "lm") |>  gf_density_2d()
+A |> gf_point(MaximumHR~Age, color = ~Sex) |>  gf_smooth(method = "lm") |>  gf_density_2d() |> gf_refine(scale_colour_brewer(palette = ""))
 ```
 
 ```{r}
@@ -289,76 +293,154 @@ The contingency table.
 
 # Panel C — place
 
-*Join `country` to `rnaturalearth` / `tmap::World`. Fill is infant mortality (a rate).*
-
 Geometry is not in the CSV. Join in R, then use the same seven headings.
-
-```r
-# library(sf)
-# library(rnaturalearth)
-# world <- ne_countries(scale = "medium", returnclass = "sf")
-# # join on country name; list the unmatched labels
-```
 
 
 ### 1. See the table
 
 What is a case? Which columns are Quant / Qual? What is missing?
 
-```r
-# glimpse() / inspect() / skim()
-```
-```{r}
-myPanelCData <- read_csv(file = "data/panel-C.csv")
-glimpse(myPanelCData)
-```
+Qualitative Columns:
+1) Country; (country)
+2) Continent; (continent)
+
+Quantitative Columns:
+1) Year; (year)
+2) Life Expectency; (lifeExp)
+3) Population of the Country; (pop)
+4) Per Capita GDP; (gpdPercap)
+
+Missing Columns:
+1) Sex ?
 
 ```{r}
-
-myPanelCData <- read_csv(file = "data/panel-C.csv")
-skim(myPanelCData)
-
+#| label: Set_up
+C <- read_csv(file = "data/panel-C.csv")
+C
 ```
 
 ```{r}
-
-myPanelCData <- read_csv(file = "data/panel-C.csv")
-
-inspect(myPanelCData)
+#| label: skim
+skim(C)
 ```
+
+```{r}
+#| label: inspect
+inspect(C)
+```
+
+```{r}
+#| label: glimpse
+glimpse(C)
+```
+
+```{r}
+#| label: mutate
+C_mod <- C |> mutate(across(where(is.character),as.factor))
+C_mod |> glimpse()
+```
+
+```{r}
+#| label: world+necountries
+world <- rnaturalearth::ne_countries(returnclass = "sf")
+glimpse(world)
+```
+
+```{r}
+#| label: reading_world
+world
+```
+
+```{r}
+#| label: plotting_map
+world |> ggformula::gf_sf(geometry = ~geometry)
+```
+
+```{r}
+#| label: scaling_down
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+glimpse(world)
+```
+
+```{r}
+#| label: selecting_african_countries
+world_selected <- world |>  dplyr::select(name,geometry)
+```
+
+```{r}
+#| label: glimpse(2)
+glimpse(world)
+```
+
+```{r}
+#| label: adding_geometry
+C_modd <- C_mod |> left_join(world_selected, by = c("country" = "name"))
+glimpse(C_modd)
+```
+
 
 ### 2. Ask
 
-One question *this* table can answer. One it cannot. Write both.
+Questions which we can answer.
+1) Which countries have the lowest Life expectancy?
+2) Is there a relation between Population of a country and the GDP Per Capita ? Is the GDP value higher with higher population?
+
+Questions which we cannot answer.
+1) Why do some countries have a high GDP per Capita but low life expectancy?
+2) What percentage of women help a country build their per Capita?
 
 ### 3. Choose a mark
 
-Geom, map mark, or (later) test that matches the pair type. Name it before you code.
+Question 1; Can be answered
+Which countries have the lowest Life expectancy?
+```{r}
+#| label: chart1_question(a)
+C_modd |> gf_sf(geometry = ~geometry, fill = ~lifeExp, color = "black")
+```
+Question 2; Can be answered
+
+Is there a relation between Population of a country and the Per capita GDP? Is the GDP value higher with higher population?
+```{r}
+#| label: chart2_question(a)
+C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~pop) |> gf_refine(ggplot2::scale_color_gradient(low = "#A1FA4F", high = "#183E0C")) |> gf_refine(ggplot2::scale_fill_gradient(low = "#FFFE91", high = "#BA1B1B"))
+```
+
+-----------------------------------------------------
+
+Question 1; Cannot be answered
+
+Why do some countries have a high GDP per capita but low life expectancy?
+```{r}
+#| label: chart1_question(na)
+C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~lifeExp) |> gf_refine(ggplot2::scale_fill_gradient(low = "#A1FB8E", high = "#00023D")) |> gf_refine(ggplot2::scale_color_gradient(low = "#FF9CA7", high = "#661E18"))
+
+```
+
+Question 2; Cannot be answered
+What percentage of women help a country build their per capita?
+```{r}
+#| label: chart1_question(na)
+C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~pop) |> gf_refine(ggplot2::scale_color_gradient(low = "yellow", high = "green")) |> gf_refine(ggplot2::scale_fill_gradient(low = "#C8BFE7", high = "#A349A4"))
+
+```
 
 ### 4. Predict
 
-What do we think we will see? One sentence, before Run.
+We predict that there would be a good graph, showing Africa in a stable state. (This however was very much not the truth)
 
-### 5. Make
+### 5. Say
 
-Human brick first. Optional: one AI prompt, pasted below, only for what section 3 named.
+Title: Africa; A data visualization
 
-```r
-# human chunk
+Caption: These graphs show different aspects like Life expectancy, Overall population and Per Capita GDP in different African countries.
 
-# ## Prompt we actually used
-# ai_draft
-# ours
-```
+oNE STATEMENT WE WILL STAND BY:
+Most of Africa is in a pretty bad state, when it comes to the data collected in this set. 
 
-### 6. Say
+### 6. Limit
 
-Caption + one sentence we will stand behind. Title is a sentence, not a column name.
-
-### 7. Limit
-
-What this panel cannot do. Which kit table we refused to abuse.
-
+Some countries are not shown on the map due to the country not existing in world database.
+We cannot tell the difference in life expectancy between women, men and other genders.
 
 # Conclusion
 
@@ -369,7 +451,3 @@ What the spine looks like after three panels.
 - Which lines were human, which were machine
 - Limits: sample, missingness, the test we did not run
 - Gift for the steal-this strip (palette, annotation, join trick)
-
-```r
-# sessionInfo()
-```
