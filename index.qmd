@@ -407,7 +407,7 @@ C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~pop) |> gf_ref
 
 -----------------------------------------------------
 
-Question 1; Cannot be answered
+Question 1: Cannot be answered
 
 Why do some countries have a high GDP per capita but low life expectancy?
 ```{r}
@@ -416,7 +416,7 @@ C_modd |> gf_sf(geometry = ~geometry, fill = ~gdpPercap, color = ~lifeExp) |> gf
 
 ```
 
-Question 2; Cannot be answered
+Question 2: Cannot be answered
 What percentage of women help a country build their per capita?
 ```{r}
 #| label: chart1_question(na)
